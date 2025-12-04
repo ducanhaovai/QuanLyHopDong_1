@@ -1,0 +1,229 @@
+API DOCUMENTATION – QUẢN LÝ HỢP ĐỒNG THI CÔNG TRẠM BTS
+Đăng nhập
+Endpoint: /auth/login
+Method: POST
+Mục đích: Xác thực người dùng, trả JWT Token.
+JSON Test:
+{'email': 'user@example.com', 'matkhau': '123456'}
+Lấy danh sách người dùng
+Endpoint: /users
+Method: GET
+Mục đích: Lấy tất cả người dùng theo vai trò.
+JSON Test:
+{}
+Tạo người dùng
+Endpoint: /users
+Method: POST
+Mục đích: Admin tạo tài khoản người dùng.
+JSON Test:
+{'ten': 'Nguyen Van A', 'email': 'a@example.com', 'matkhau': '123456', 'vaitro': 'qlda'}
+Cập nhật người dùng
+Endpoint: /users/{id}
+Method: PUT
+Mục đích: Cập nhật thông tin người dùng.
+JSON Test:
+{'ten': 'Nguyen Van B', 'vaitro': 'ktv'}
+Xóa người dùng
+Endpoint: /users/{id}
+Method: DELETE
+Mục đích: Xóa người dùng (soft delete).
+JSON Test:
+{}
+Danh sách tỉnh
+Endpoint: /tinh
+Method: GET
+Mục đích: Lấy danh sách tỉnh thành.
+JSON Test:
+{}
+Tạo tỉnh
+Endpoint: /tinh
+Method: POST
+Mục đích: Thêm tỉnh mới vào hệ thống.
+JSON Test:
+{'ma': 'HGG', 'ten': 'Hà Giang'}
+Cập nhật tỉnh
+Endpoint: /tinh/{id}
+Method: PUT
+Mục đích: Cập nhật tên hoặc mã tỉnh.
+JSON Test:
+{'ten': 'Hà Giang Updated'}
+Xóa tỉnh
+Endpoint: /tinh/{id}
+Method: DELETE
+Mục đích: Xóa tỉnh khỏi hệ thống.
+JSON Test:
+{}
+Danh sách trạm
+Endpoint: /tram
+Method: GET
+Mục đích: Hiển thị danh sách toàn bộ trạm.
+JSON Test:
+{}
+Tạo trạm
+Endpoint: /tram
+Method: POST
+Mục đích: Thêm trạm BTS vào hệ thống.
+JSON Test:
+{'matram': 'THA2281', 'tinhthanh_id': 1, 'diachi': 'Xã ABC', 'lat': 21.123, 'lng': 105.123, 'loaiproject': 'btsmoi'}
+Cập nhật trạm
+Endpoint: /tram/{id}
+Method: PUT
+Mục đích: Cập nhật thông tin trạm.
+JSON Test:
+{'diachi': 'Xã mới XYZ', 'loaiproject': 'kienco'}
+Xóa trạm
+Endpoint: /tram/{id}
+Method: DELETE
+Mục đích: Xóa trạm.
+JSON Test:
+{}
+Danh sách cột
+Endpoint: /cot
+Method: GET
+Mục đích: Lấy danh sách các loại cột.
+JSON Test:
+{}
+Thêm loại cột
+Endpoint: /cot
+Method: POST
+Mục đích: Thêm loại cột vào thư viện.
+JSON Test:
+{'macot': 'MP30', 'tencot': 'Monopole 30m', 'loaicot': 'greenfield', 'cao': 30, 'giadonvi': 150000000}
+Cập nhật loại cột
+Endpoint: /cot/{id}
+Method: PUT
+Mục đích: Cập nhật thông tin cột.
+JSON Test:
+{'tencot': 'Monopole 30m Updated'}
+Xóa cột
+Endpoint: /cot/{id}
+Method: DELETE
+Mục đích: Xóa loại cột.
+JSON Test:
+{}
+Danh sách hợp đồng
+Endpoint: /hopdong
+Method: GET
+Mục đích: Hiển thị danh sách hợp đồng.
+JSON Test:
+{}
+Tạo hợp đồng
+Endpoint: /hopdong
+Method: POST
+Mục đích: Thêm hợp đồng mới.
+JSON Test:
+{'tram_id': 10, 'sohopdong': 'HD-2025-001', 'chudautu': 'VTNet', 'ngayky': '2025-01-15', 'tonggiatri': 500000000}
+Cập nhật hợp đồng
+Endpoint: /hopdong/{id}
+Method: PUT
+Mục đích: Cập nhật thông tin hợp đồng.
+JSON Test:
+{'tonggiatri': 550000000}
+Xóa hợp đồng
+Endpoint: /hopdong/{id}
+Method: DELETE
+Mục đích: Soft delete hợp đồng.
+JSON Test:
+{}
+Lấy danh sách cột theo hợp đồng
+Endpoint: /hopdong/{id}/cot
+Method: GET
+Mục đích: Lấy volume cột theo hợp đồng.
+JSON Test:
+{}
+Thêm cột vào hợp đồng
+Endpoint: /hopdong/{id}/cot
+Method: POST
+Mục đích: Gán loại cột và số lượng cho hợp đồng.
+JSON Test:
+{'cot_id': 3, 'soluong': 10}
+Cập nhật số lượng cột hợp đồng
+Endpoint: /hopdong/{id}/cot/{cot_id}
+Method: PUT
+Mục đích: Thay đổi số lượng cột.
+JSON Test:
+{'soluong': 12}
+Xóa cột khỏi hợp đồng
+Endpoint: /hopdong/{id}/cot/{cot_id}
+Method: DELETE
+Mục đích: Xóa cột khỏi hợp đồng.
+JSON Test:
+{}
+Lấy dữ liệu thực tế
+Endpoint: /hopdong/{id}/thucte
+Method: GET
+Mục đích: Lấy khối lượng KSTK thực tế.
+JSON Test:
+{}
+Nhập dữ liệu thực tế
+Endpoint: /hopdong/{id}/thucte
+Method: POST
+Mục đích: Nhập khối lượng thực tế.
+JSON Test:
+{'cot_id': 3, 'soluong_thucte': 8}
+Cập nhật dữ liệu thực tế
+Endpoint: /hopdong/{id}/thucte/{cot_id}
+Method: PUT
+Mục đích: Cập nhật số lượng thực tế.
+JSON Test:
+{'soluong_thucte': 9}
+Lấy tiến độ hợp đồng
+Endpoint: /hopdong/{id}/tiendo
+Method: GET
+Mục đích: Lấy 6 giai đoạn tiến độ.
+JSON Test:
+{}
+Cập nhật tiến độ
+Endpoint: /hopdong/{id}/tiendo
+Method: PUT
+Mục đích: Cập nhật tiến độ theo 6 bước.
+JSON Test:
+{'ngayks': '2025-05-01', 'ngaytk': '2025-05-05', 'ngaydutoan': '2025-05-10', 'ngaypheduyet': '2025-05-18', 'ngaynhan_dhtc': '2025-05-20', 'trangthai_tc': 'dangtc'}
+Lấy lịch sử hệ thống
+Endpoint: /lichsu
+Method: GET
+Mục đích: Lấy toàn bộ log thay đổi.
+JSON Test:
+{}
+Lấy lịch sử theo hợp đồng
+Endpoint: /hopdong/{id}/lichsu
+Method: GET
+Mục đích: Lấy log thay đổi theo hợp đồng.
+JSON Test:
+{}
+Dashboard tổng quan
+Endpoint: /dashboard/overview
+Method: GET
+Mục đích: Thống kê tổng quan hệ thống.
+JSON Test:
+{}
+Thống kê doanh thu
+Endpoint: /dashboard/doanhthu
+Method: GET
+Mục đích: Thống kê doanh thu theo thời gian.
+JSON Test:
+{}
+Tiến độ theo tỉnh
+Endpoint: /dashboard/tiendo
+Method: GET
+Mục đích: Thống kê tiến độ từng tỉnh.
+JSON Test:
+{}
+Xuất Excel hợp đồng
+Endpoint: /export/hopdong
+Method: GET
+Mục đích: Xuất danh sách hợp đồng ra Excel.
+JSON Test:
+{}
+Xuất Excel tiến độ
+Endpoint: /export/tiendo
+Method: GET
+Mục đích: Xuất tiến độ thi công.
+JSON Test:
+{}
+Import Excel hợp đồng
+Endpoint: /import/hopdong
+Method: POST
+Mục đích: Import dữ liệu từ Excel.
+JSON Test:
+{'file': 'upload.xlsx'}
