@@ -1,5 +1,6 @@
 import pool from '../config/database.js';
 import { logAction } from '../utils/logger.js';
+import { recalculateProgress } from './tiendoController.js';
 
 // Lấy dữ liệu thực tế
 export const getThucte = async (req, res) => {
@@ -8,7 +9,7 @@ export const getThucte = async (req, res) => {
 
     const [thucte] = await pool.execute(`
       SELECT kt.*, 
-             c.macot, c.tencot, c.loaicot,
+             c.macot, c.tencot, c.vitri,
              hc.soluong as soluong_hopdong
       FROM kstk_thucte kt
       LEFT JOIN thuviencot c ON kt.cot_id = c.id
@@ -64,6 +65,9 @@ export const createThucte = async (req, res) => {
     );
 
     await logAction(req.user.id, `Nhập dữ liệu thực tế hợp đồng ${id}`, null, { cot_id, soluong_thucte, chenhlech });
+
+    // Tự động tính lại phần trăm hoàn thành khi có bản ghi KSTK mới
+    await recalculateProgress(id);
 
     res.status(201).json({
       id: result.insertId,
@@ -131,7 +135,7 @@ export const getThucteVolumeOther = async (req, res) => {
 
     const [thucte] = await pool.execute(`
       SELECT ktv.*, 
-             v.mavolume, v.tenvolume, v.loaivolume, v.donvitinh,
+             v.mavolume, v.tenvolume,
              hdv.soluong as soluong_hopdong
       FROM kstk_thucte_volume_khac ktv
       LEFT JOIN thuvien_volume_khac v ON ktv.volume_id = v.id
@@ -187,6 +191,9 @@ export const createThucteVolumeOther = async (req, res) => {
     );
 
     await logAction(req.user.id, `Nhập dữ liệu thực tế volume khác hợp đồng ${id}`, null, { volume_id, soluong_thucte, chenhlech });
+
+    // Tự động tính lại phần trăm hoàn thành khi có bản ghi KSTK mới
+    await recalculateProgress(id);
 
     res.status(201).json({
       id: result.insertId,

@@ -20,6 +20,31 @@ export const getHopdong = async (req, res) => {
   }
 };
 
+export const getHopdongById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [hopdong] = await pool.execute(`
+      SELECT h.*, 
+             t.matram, t.diachi as tram_diachi, t.lat, t.lng, t.loaiproject,
+             tt.ten as tinhthanh_ten, tt.ma as tinhthanh_ma
+      FROM hopdong h
+      LEFT JOIN tram t ON h.tram_id = t.id
+      LEFT JOIN tinhthanh tt ON t.tinhthanh_id = tt.id
+      WHERE h.id = ? AND h.daxoa = 0
+    `, [id]);
+
+    if (hopdong.length === 0) {
+      return res.status(404).json({ error: 'Không tìm thấy hợp đồng' });
+    }
+
+    res.json(hopdong[0]);
+  } catch (error) {
+    console.error('Lỗi lấy chi tiết hợp đồng:', error);
+    res.status(500).json({ error: 'Lỗi server' });
+  }
+};
+
 export const createHopdong = async (req, res) => {
   try {
     const { tram_id, sohopdong, chudautu, ngayky, tonggiatri } = req.body;

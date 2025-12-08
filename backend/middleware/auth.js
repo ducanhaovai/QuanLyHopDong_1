@@ -24,12 +24,29 @@ export const authorizeRoles = (...roles) => {
       return res.status(401).json({ error: 'Chưa xác thực' });
     }
 
-    if (!roles.includes(req.user.vaitro)) {
+    // Hỗ trợ cả vaitro (cũ) và la_admin (mới)
+    // Nếu có la_admin = 1, coi như có quyền admin
+    const userRole = req.user.la_admin === 1 ? 'admin' : (req.user.vaitro || 'ktv');
+    
+    if (!roles.includes(userRole)) {
       return res.status(403).json({ error: 'Không có quyền truy cập' });
     }
 
     next();
   };
+};
+
+// Middleware kiểm tra quyền admin dựa trên la_admin
+export const requireAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ error: 'Chưa xác thực' });
+  }
+
+  if (!req.user.la_admin || req.user.la_admin !== 1) {
+    return res.status(403).json({ error: 'Chỉ admin mới có quyền thực hiện thao tác này' });
+  }
+
+  next();
 };
 
 // Middleware cho phép tạo user đầu tiên mà không cần authentication
@@ -58,7 +75,10 @@ export const allowFirstUserOrAdmin = async (req, res, next) => {
         return res.status(403).json({ error: 'Token không hợp lệ' });
       }
 
-      if (user.vaitro !== 'admin') {
+      // Kiểm tra quyền admin dựa trên la_admin (1 = admin, 0 = không phải admin)
+      // Hỗ trợ cả kiểu boolean và number
+      const isAdmin = user.la_admin === 1 || user.la_admin === true;
+      if (!isAdmin) {
         return res.status(403).json({ error: 'Chỉ admin mới có quyền tạo người dùng' });
       }
 

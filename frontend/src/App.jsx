@@ -10,6 +10,8 @@ import Progress from './pages/Admin/Progress';
 import Comparison from './pages/Admin/Comparison';
 import Reports from './pages/Admin/Reports';
 import Profile from './pages/Admin/Profile';
+import KTVSurveyContracts from './pages/KTV/KTVSurveyContracts';
+import KTVSurveyDetail from './pages/KTV/KTVSurveyDetail';
 
 function App() {
   return (
@@ -29,6 +31,9 @@ function App() {
           <Route path="/comparison" element={<Comparison />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/profile" element={<Profile />} />
+          {/* KTV Routes */}
+          <Route path="/hopdong-can-khaosat" element={<KTVSurveyContracts />} />
+          <Route path="/ktv/survey/:id" element={<KTVSurveyDetail />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>

@@ -304,6 +304,18 @@ export const thucteVolumeOtherAPI = {
 
 // ==================== TIẾN ĐỘ (PROGRESS) ====================
 export const tiendoAPI = {
+  getAll: async (filters = {}) => {
+    const queryParams = new URLSearchParams();
+    if (filters.search) queryParams.append('search', filters.search);
+    if (filters.status) queryParams.append('status', filters.status);
+    if (filters.province) queryParams.append('province', filters.province);
+    
+    const queryString = queryParams.toString();
+    return apiCall(`/hopdong/tiendo/list${queryString ? `?${queryString}` : ''}`);
+  },
+  getKTVContracts: async () => {
+    return apiCall('/hopdong/ktv/contracts');
+  },
   get: async (hopdongId) => {
     return apiCall(`/hopdong/${hopdongId}/tiendo`);
   },
